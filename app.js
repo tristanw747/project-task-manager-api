@@ -11,8 +11,9 @@ dotenv.config();
 const app = express();
 
 
-
+  
 // middleware
+app.use(express.static('./public'))
 app.use(express.json())
 //routes
 app.get('/hello', (req,res)=>{
