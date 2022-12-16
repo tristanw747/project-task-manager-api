@@ -6,6 +6,10 @@ import {connectDB} from './db/connect.js';
 // import dotenv from "dotenv";
 import dotenv from 'dotenv';
 dotenv.config();
+import { notFound } from "./middleware/not-found.js";
+import { errorHandlerMiddleware } from "./middleware/error-handler.js";
+
+
 
 
 const app = express();
@@ -16,17 +20,13 @@ const app = express();
 app.use(express.static('./public'))
 app.use(express.json())
 //routes
-app.get('/hello', (req,res)=>{
-  res.send("Task Manager App")
-})
-
-app.get('/', (req,res)=>{
-  res.send("Home Page")
-})
 
 app.use('/api/v1/tasks', tasks)
 
-const port = 3000;
+app.use(notFound)
+app.use(errorHandlerMiddleware)
+
+const port = process.env.PORT || 3000;
 
 const start = async () =>{
   try{
